@@ -1,4 +1,4 @@
-import Plugin, { runPlugin } from "../../plugin-sdk/src/index";
+import Plugin, { runPlugin } from "dotx-plugin-sdk";
 
 export default class HelloWorldPlugin extends Plugin {
 

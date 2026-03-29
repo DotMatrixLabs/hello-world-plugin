@@ -1,10 +1,10 @@
 # Hello World Plugin
 
-A demonstration plugin for the DotX ecosystem. This plugin serves as a reference implementation for building plugins using the DotX Plugin SDK, showcasing device management, UI integration, and settings configuration.
+A demonstration plugin for the Dot X ecosystem. This plugin serves as a reference implementation for building plugins using the Dot X Plugin SDK, showcasing device management, UI integration, and settings configuration.
 
 ## Overview
 
-The Hello World plugin helps developers understand the core concepts of the DotX plugin architecture. It provides functional examples of interacting with connected hardware and creating dynamic settings pages.
+The Hello World plugin helps developers understand the core concepts of the Dot X plugin architecture. It provides functional examples of interacting with connected hardware and creating dynamic settings pages.
 
 ## Features
 
@@ -39,6 +39,8 @@ The Hello World plugin helps developers understand the core concepts of the DotX
    npm install
    ```
 
+This plugin now consumes `dotx-plugin-sdk` from npm during the build. No local `dot-x` checkout or `DOTX_SDK_PATH` override is required.
+
 ### Building
 
 ```bash
@@ -46,6 +48,29 @@ npm run build
 ```
 
 The build process generates `main.js` in the root directory.
+
+### Packaging For Marketplace Releases
+
+```bash
+npm run package
+```
+
+This creates `dist/plugin.zip` with:
+
+- `manifest.json`
+- `main.js`
+- any extra paths listed in `package.json` under `dotxPlugin.include`
+
+For this example plugin, `hello-world-config.json` is included in the release package.
+
+### Publishing
+
+Push a version tag such as `v1.0.1` and GitHub Actions will:
+
+- verify the tag matches `package.json` and `manifest.json`
+- build `main.js`
+- generate `dist/plugin.zip`
+- upload `plugin.zip` to the GitHub Release
 
 ## Project Structure
 

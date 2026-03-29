@@ -1,16 +1,28 @@
 {
   "name": "hello-world",
-  "version": "1.0.0",
-  "main": "main.ts",
+  "version": "1.0.1",
+  "main": "main.js",
   "type": "commonjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "esbuild main.ts --bundle --outfile=main.js --format=cjs --platform=node --target=node16 --minify"
+    "build": "node scripts/build-plugin.js",
+    "package": "npm run build && node scripts/package-plugin.js",
+    "release:verify-version": "node scripts/verify-release-version.js",
+    "release:build": "npm run release:verify-version && npm run package"
+  },
+  "dotxPlugin": {
+    "include": [
+      "hello-world-config.json"
+    ]
   },
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "dotx-plugin-sdk": "^1.0.0"
+  },
+  "devDependencies": {
+    "adm-zip": "^0.5.16",
     "esbuild": "^0.25.6"
   }
 }
