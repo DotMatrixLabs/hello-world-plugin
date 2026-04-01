@@ -90,6 +90,14 @@ Push a version tag such as `v1.0.1` and GitHub Actions will:
 - generate `dist/plugin.zip`
 - upload `plugin.zip` to the GitHub Release
 
+You can also publish manually from the GitHub Actions UI:
+
+1. Open the `Release Plugin` workflow.
+2. Choose `Run workflow`.
+3. Enter the plugin version without the leading `v`, for example `1.0.1`.
+
+The workflow will validate that the entered version matches `package.json` and `manifest.json`, build `dist/plugin.zip`, and publish a GitHub release for tag `v<version>` from the selected commit.
+
 ## Project Structure
 
 - `main.ts`: Plugin logic and UI definitions.
