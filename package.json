@@ -1,28 +1,25 @@
 {
   "name": "hello-world",
   "version": "1.0.1",
-  "main": "main.js",
+  "private": true,
   "type": "commonjs",
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "node scripts/build-plugin.js",
-    "package": "npm run build && node scripts/package-plugin.js",
-    "release:verify-version": "node scripts/verify-release-version.js",
-    "release:build": "npm run release:verify-version && npm run package"
+    "build": "node -e \"const manifest=require(\\\"./manifest.json\\\"); require(\\\"esbuild\\\").build({ entryPoints: [\\\"main.ts\\\"], outfile: manifest.main, bundle: true, format: \\\"cjs\\\", platform: \\\"node\\\", target: \\\"node16\\\", minify: true }).catch((error) => { console.error(error.message); process.exit(1); })\"",
+    "package": "npm run build && dotx-plugin package",
+    "release:verify-version": "dotx-plugin verify-release",
+    "release:build": "npm run release:verify-version && npm run package",
+    "start": "node -e \"const { spawn } = require(\\\"node:child_process\\\"); const manifest=require(\\\"./manifest.json\\\"); const child=spawn(process.execPath,[manifest.main],{stdio:\\\"inherit\\\"}); child.on(\\\"exit\\\",(code)=>process.exit(code ?? 0)); child.on(\\\"error\\\",(error)=>{ console.error(error.message); process.exit(1); })\""
   },
-  "dotxPlugin": {
-    "include": [
-      "hello-world-config.json"
-    ]
-  },
-  "author": "",
-  "license": "ISC",
-  "description": "",
+  "author": "DotX Team",
+  "license": "MIT",
+  "description": "A simple hello world plugin for Dot X",
   "dependencies": {
-    "dotx-plugin-sdk": "^1.0.0"
+    "@dotmatrixlabs/dotx-plugin-sdk": "^1.0.0"
   },
   "devDependencies": {
-    "adm-zip": "^0.5.16",
     "esbuild": "^0.25.6"
   }
 }

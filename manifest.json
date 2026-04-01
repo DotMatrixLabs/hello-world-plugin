@@ -20,5 +20,10 @@
   "permissions": [
     "env"
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "packaging": {
+    "include": [
+      "hello-world-config.json"
+    ]
+  }
 }

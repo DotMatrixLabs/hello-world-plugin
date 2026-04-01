@@ -23,7 +23,7 @@ The Hello World plugin helps developers understand the core concepts of the Dot 
 
 ### Prerequisites
 
-- [Node.js](https://nodejs.org/) (v16+)
+- [Node.js](https://nodejs.org/) (v20+)
 - [esbuild](https://esbuild.github.io/)
 
 ### Installation
@@ -39,7 +39,7 @@ The Hello World plugin helps developers understand the core concepts of the Dot 
    npm install
    ```
 
-This plugin now consumes `dotx-plugin-sdk` from npm during the build. No local `dot-x` checkout or `DOTX_SDK_PATH` override is required.
+This plugin now consumes `@dotmatrixlabs/dotx-plugin-sdk` from npm. It also uses the shared `dotx-plugin` CLI from that package for release validation and `plugin.zip` packaging, so no local `dot-x` checkout or custom packaging scripts are required.
 
 ### Building
 
@@ -47,7 +47,15 @@ This plugin now consumes `dotx-plugin-sdk` from npm during the build. No local `
 npm run build
 ```
 
-The build process generates `main.js` in the root directory.
+The build process generates the file declared in `manifest.json -> main`, which is currently `main.js`.
+
+### Local Development
+
+```bash
+npm start
+```
+
+Ensure the Dot X app is running before starting the plugin.
 
 ### Packaging For Marketplace Releases
 
@@ -58,17 +66,27 @@ npm run package
 This creates `dist/plugin.zip` with:
 
 - `manifest.json`
-- `main.js`
-- any extra paths listed in `package.json` under `dotxPlugin.include`
+- the file declared by `manifest.json -> main`
+- optional `assets/`, `data/`, and `bin/`
+- any extra paths listed in `manifest.json -> packaging.include`
 
-For this example plugin, `hello-world-config.json` is included in the release package.
+For this example plugin, `hello-world-config.json` is included via:
+
+```json
+{
+  "packaging": {
+    "include": ["hello-world-config.json"]
+  }
+}
+```
 
 ### Publishing
 
 Push a version tag such as `v1.0.1` and GitHub Actions will:
 
 - verify the tag matches `package.json` and `manifest.json`
-- build `main.js`
+- validate marketplace-required manifest fields
+- build the file referenced by `manifest.main`
 - generate `dist/plugin.zip`
 - upload `plugin.zip` to the GitHub Release
 
@@ -77,7 +95,7 @@ Push a version tag such as `v1.0.1` and GitHub Actions will:
 - `main.ts`: Plugin logic and UI definitions.
 - `manifest.json`: Metadata, permissions, and links.
 - `hello-world-config.json`: Default configuration.
-- `package.json`: Dependencies and scripts.
+- `package.json`: npm dependency on `@dotmatrixlabs/dotx-plugin-sdk` plus build/package scripts.
 
 ## API Examples
 

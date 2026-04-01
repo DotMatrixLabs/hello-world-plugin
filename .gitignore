@@ -1,3 +1,6 @@
 dist/
 node_modules/
 *.log
+plugin.log
+vendor/
+.DS_Store
